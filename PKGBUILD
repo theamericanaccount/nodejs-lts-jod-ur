@@ -5,7 +5,7 @@
 pkgname=nodejs-lts-jod
 pkgver=22.13.0
 pkgrel=1
-pkgdesc="Evented I/O for V8 javascript (LTS release: Iron)"
+pkgdesc="Evented I/O for V8 javascript (LTS release: Jod)"
 arch=(x86_64)
 url="https://nodejs.org/"
 license=(MIT)
