@@ -51,6 +51,13 @@ _evmfs_available="$(
     -v \
     "evmfs" || \
     true)"
+if [[ "${_os}" == "Android" ]]; then
+  _c_compiler="clang"
+  _libc="llvm-libs"
+elif [[ "${_os}" == "GNU/Linux" ]]; then
+  _compiler="gcc"
+  _libc="gcc-libs"
+fi
 if [[ ! -v "_evmfs" ]]; then
   if [[ "${_evmfs_available}" != "" ]]; then
     _evmfs="true"
@@ -105,7 +112,9 @@ license=(
 depends=(
   "brotli"
   "c-ares"
+  "${_c_compiler}"
   # http-parser
+  "${_libc}"
   "icu"
   "libuv"
   "libnghttp2"
@@ -114,10 +123,13 @@ depends=(
   "zlib"
 )
 makedepends=(
+  "${_c_compiler}"
   "icu"
+  "${_libc}"
   "${_py_makedepend}"
   "procps-ng"
   "patch"
+  "pkgconf"
 )
 _npm_optdepends=(
   'npm:'
