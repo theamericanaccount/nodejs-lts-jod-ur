@@ -53,10 +53,12 @@ _evmfs_available="$(
     true)"
 if [[ "${_os}" == "Android" ]]; then
   _c_compiler="clang"
-  _libc="llvm-libs"
+  _libcompiler="llvm-libs"
+  _libc="ndk-sysroot"
 elif [[ "${_os}" == "GNU/Linux" ]]; then
   _c_compiler="gcc"
-  _libc="gcc-libs"
+  _libcompiler="gcc-libs"
+  _libc="glibc"
 fi
 if [[ ! -v "_evmfs" ]]; then
   if [[ "${_evmfs_available}" != "" ]]; then
@@ -97,7 +99,7 @@ _pkg=nodejs
 _variant=lts-jod
 pkgname="${_pkg}-${_variant}"
 pkgver=22.22.0
-pkgrel=7
+pkgrel=8
 pkgdesc='Evented I/O for V8 javascript (LTS release: Jod)'
 arch=(
   "aarch64"
@@ -112,9 +114,9 @@ license=(
 depends=(
   "brotli"
   "c-ares"
-  "${_c_compiler}"
   # http-parser
-  "${_libc}"
+  "${_libcompiler}"
+  # "${_libc}"
   "icu"
   "libuv"
   "libnghttp2"
@@ -125,7 +127,8 @@ depends=(
 makedepends=(
   "${_c_compiler}"
   "icu"
-  "${_libc}"
+  "${_libcompiler}"
+  # "${_libc}"
   "${_py_makedepend}"
   "procps-ng"
   "patch"
