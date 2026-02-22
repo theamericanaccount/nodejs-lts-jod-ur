@@ -6,7 +6,7 @@
 #    .gitlab-ci.yaml
 #
 #    ----------------------------------------------------------------------
-#    Copyright © 2022, 2023, 2024, 2025
+#    Copyright © 2022, 2023, 2024, 2025, 2026
 #                Pellegrino Prevete
 #
 #    All rights reserved
@@ -86,7 +86,7 @@ variables:
         "/root/.config/gitlab.com/default.txt"
       cp \
         "/root/.config/gitlab.com/default.txt" \
-        "/root/.config/gitlab.com/${CI_PROJECT_NAMESPACE}"
+        "/root/.config/gitlab.com/${CI_PROJECT_NAMESPACE}.txt"
       if [[ "${BUR_GPG_KEY}" == "" ]]; then
         _msg=(
           "Missing Bur GPG key."
@@ -177,10 +177,12 @@ build:
   after_script:
     - ./.gitlab/ci/upload.sh ${BUILD_SCRIPT_ARGS}
 
+
 release:
   artifacts:
     reports:
       metrics: output/metrics.txt
+    when: on_failure
     paths:
       - build-directory.tar.xz
   stage: build
