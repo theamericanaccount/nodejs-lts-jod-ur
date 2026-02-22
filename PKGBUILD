@@ -80,7 +80,7 @@ if [[ ! -v "_py" ]]; then
   _pyminver="${_pymajver#*.}"
   _pynextver="${_pymajver%.*}.$((
     ${_pyminver} + 1))"
-  if (( 13 < "${_pynextver}" )); then
+  if (( "${_pyminver}" < 14 )); then
     _py_makedepend="${_py}<3.14"
   else
     _py_makedepend="${_py}3.13"
