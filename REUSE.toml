@@ -19,5 +19,5 @@ path = [
     "*.hook",
     "update-icu-tests.patch",
 ]
-SPDX-FileCopyrightText = "Arch Linux contributors"
-SPDX-License-Identifier = "0BSD"
+SPDX-FileCopyrightText = "Pellegrino Prevete"
+SPDX-License-Identifier = "AGPL3"
