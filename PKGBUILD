@@ -55,7 +55,7 @@ if [[ "${_os}" == "Android" ]]; then
   _c_compiler="clang"
   _libc="llvm-libs"
 elif [[ "${_os}" == "GNU/Linux" ]]; then
-  _compiler="gcc"
+  _c_compiler="gcc"
   _libc="gcc-libs"
 fi
 if [[ ! -v "_evmfs" ]]; then
