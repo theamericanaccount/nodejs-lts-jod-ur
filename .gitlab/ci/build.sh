@@ -42,6 +42,55 @@ shopt \
   -s \
     extglob
 
+_check_tag_latest() {
+  local \
+    _pkgname="${1}" \
+    _msg=() \
+    _tag \
+    _tag_build \
+    _tag_current \
+    _tag_recipe \
+    _repo_dir
+  _repo_dir="/home/user/${_pkgname}"
+  git \
+    config \
+      --global \
+      --add \
+        "safe.directory" \
+        "${_repo_dir}"
+  _tag="$(
+    git \
+      -C \
+        "${_repo_dir}" \
+      tag |
+      sort \
+        -V |
+        tail \
+          -n \
+            1)"
+  _tag_build="${tag}"
+  _tag_current="${_tag_build}"
+  _tag_recipe="$(
+    recipe-get \
+      "${_repo_dir}/PKGBUILD" \
+      "pkgver" || \
+      true)-$(
+        recipe-get \
+          "${_repo_dir}/PKGBUILD" \
+          "pkgrel")"
+  _tag_current="${_tag_recipe}"
+  if [[ "${_tag}" != "${_tag_current}" ]]; then
+    _msg=(
+      "Current build tag '${_tag_current}',"
+      "latest tag '${_tag}'."
+    )
+    echo \
+      "${_msg[*]}"
+    exit \
+      0
+  fi
+}
+
 _gur_mini() {
   local \
     _ns="${1}" \
@@ -216,8 +265,10 @@ _requirements() {
   _gur_mini \
     "${ns}" \
     "reallymakepkg" \
-    "1.2.5-1" || \
+    "1.2.5-7" || \
   true
+  _check_tag_latest \
+    "${_pkgname}"
   _evm_chains_release_latest="20250816-3"
   _evm_chains_explorers_release_latest="0.0.0.0.0.0.0.0.0.0.1.1.1-3"
   _evm_chains_info_release_latest="0.0.0.0.0.0.0.0.0.0.1.1.1.1.1.1.1-6"
